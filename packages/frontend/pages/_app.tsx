@@ -17,6 +17,9 @@ import {
 
 import { useIsMounted } from "../hooks";
 
+import { ApolloProvider } from "@apollo/client";
+import { apolloClient } from "@/apollo";
+
 // Get environment variables
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 // const infuraId = process.env.NEXT_PUBLIC_INFURA_ID as string;
@@ -58,14 +61,16 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   if (!isMounted) return null;
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider coolMode chains={chains}>
-        <NextHead>
-          <title>create-web3</title>
-        </NextHead>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ApolloProvider client={apolloClient()}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider coolMode chains={chains}>
+          <NextHead>
+            <title>create-web3</title>
+          </NextHead>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ApolloProvider>
   );
 };
 

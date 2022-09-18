@@ -6,7 +6,7 @@ import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
 import { Button, TextField } from "@/components/elements";
 
-export const RemoveContributor = () => {
+export const AccountList = () => {
   const { data: signerData } = useSigner();
 
   const routerContract = useContract({
@@ -15,17 +15,14 @@ export const RemoveContributor = () => {
     signerOrProvider: signerData,
   });
 
-  const [contributor, setContributor] = useState("");
+  const [address, setAddress] = useState("");
+  const [isTrue, setIsTrue] = useState("");
 
-  const handleRemoveContributor = async () => {
+  const handleCheckAddress = async () => {
     try {
-      const tx = await routerContract.removeAccount(contributor, {
-        gasLimit: "1000000",
-      });
-      tx.wait(1).then((res: any) => {
-        console.log(res);
-      });
-      setContributor("");
+      const result = await routerContract.accountList(address);
+      //   console.log("result", result);
+      setIsTrue(result ? "true" : "false");
     } catch (error) {
       console.log(error);
     }
@@ -33,14 +30,15 @@ export const RemoveContributor = () => {
 
   return (
     <div className={`border rounded-md my-4 p-4`}>
+      <div>returns : {isTrue}</div>
       <TextField
-        label={`remove contributor`}
-        value={contributor}
-        onChange={(e) => setContributor(e.target.value)}
+        label={`check address`}
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
       />
       <div className={"mt-4"}>
-        <Button onClick={() => handleRemoveContributor()}>
-          remove contributor
+        <Button onClick={() => handleCheckAddress()}>
+          check address on accountList
         </Button>
       </div>
     </div>

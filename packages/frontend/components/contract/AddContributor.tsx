@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useContract, useSigner } from "wagmi";
 
 import moneyRouter from "@/abis/moneyRouter.json";
-import { MONEY_ROUTER_ADDRESS } from "@/config";
+import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
 import { Button, TextField } from "@/components/elements";
 

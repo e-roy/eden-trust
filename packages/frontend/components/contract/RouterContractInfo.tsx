@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useContract, useProvider } from "wagmi";
 
 import moneyRouter from "@/abis/moneyRouter.json";
-import { MONEY_ROUTER_ADDRESS } from "@/config";
+import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
 import { Button } from "@/components/elements";
 
