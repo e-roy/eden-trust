@@ -6,7 +6,7 @@ import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
 import { Button, Card, TextField } from "@/components/elements";
 
-export const ChangeOwner = () => {
+export const AllowAccount = () => {
   const { data: signerData } = useSigner();
 
   const routerContract = useContract({
@@ -15,32 +15,20 @@ export const ChangeOwner = () => {
     signerOrProvider: signerData,
   });
 
-  const [newOwner, setNewOwner] = useState("");
-
-  const handleChangeOwner = async () => {
-    try {
-      const tx = await routerContract.changeOwner(newOwner, {
-        gasLimit: "1000000",
-      });
-      tx.wait(1).then((res: any) => {
-        console.log(res);
-      });
-      setNewOwner("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [account, setAccount] = useState("");
 
   return (
     <Card shadow border className={`p-6 bg-white my-4`}>
       <TextField
-        label={`change owner`}
+        label={`allow account`}
         placeholder={`0x0000000000000000000000000000000000000000`}
-        value={newOwner}
-        onChange={(e) => setNewOwner(e.target.value)}
+        value={account}
+        onChange={(e) => setAccount(e.target.value)}
       />
       <div className={"mt-4"}>
-        <Button onClick={() => handleChangeOwner()}>change owner</Button>
+        <Button onClick={() => routerContract.allowAccount(account)}>
+          allow account
+        </Button>
       </div>
     </Card>
   );

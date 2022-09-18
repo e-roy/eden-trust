@@ -4,7 +4,7 @@ import { useContract, useSigner } from "wagmi";
 import moneyRouter from "@/abis/moneyRouter.json";
 import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
-import { Button, TextField } from "@/components/elements";
+import { Button, Card, TextField } from "@/components/elements";
 
 export const AddContributor = () => {
   const { data: signerData } = useSigner();
@@ -18,9 +18,10 @@ export const AddContributor = () => {
   const [contributor, setContributor] = useState("");
 
   return (
-    <div className={`border rounded-md my-4 p-4`}>
+    <Card shadow border className={`p-6 bg-white my-4`}>
       <TextField
         label={`add contributor`}
+        placeholder={`0x0000000000000000000000000000000000000000`}
         value={contributor}
         onChange={(e) => setContributor(e.target.value)}
       />
@@ -29,6 +30,6 @@ export const AddContributor = () => {
           add contributor
         </Button>
       </div>
-    </div>
+    </Card>
   );
 };

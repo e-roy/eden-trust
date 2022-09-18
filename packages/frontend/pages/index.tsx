@@ -7,6 +7,8 @@ import {
   RemoveContributor,
   ChangeOwner,
   AccountList,
+  SendLumpSum,
+  AllowAccount,
 } from "@/components/contract";
 
 import { GetAccountInfo } from "@/components/superfluid";
@@ -26,10 +28,12 @@ export default function Home() {
       <main className={`p-8`}>
         <GetAccountInfo />
         <RouterContractInfo />
+        <AllowAccount />
         <AddContributor />
         <RemoveContributor />
         <ChangeOwner />
         <AccountList />
+        <SendLumpSum />
       </main>
     </div>
   );
