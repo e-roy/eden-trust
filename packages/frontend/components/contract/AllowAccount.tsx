@@ -17,6 +17,20 @@ export const AllowAccount = () => {
 
   const [account, setAccount] = useState("");
 
+  const handleAllowAccount = async () => {
+    try {
+      const tx = await routerContract.allowAccount(account, {
+        gasLimit: "1000000",
+      });
+      tx.wait(1).then((res: any) => {
+        console.log(res);
+      });
+      setAccount("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Card shadow border className={`p-6 bg-white my-4`}>
       <TextField
@@ -26,9 +40,7 @@ export const AllowAccount = () => {
         onChange={(e) => setAccount(e.target.value)}
       />
       <div className={"mt-4"}>
-        <Button onClick={() => routerContract.allowAccount(account)}>
-          allow account
-        </Button>
+        <Button onClick={() => handleAllowAccount()}>allow account</Button>
       </div>
     </Card>
   );
