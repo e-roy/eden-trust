@@ -4,12 +4,13 @@ import { useContract, useProvider } from "wagmi";
 import moneyRouter from "@/abis/moneyRouter.json";
 import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
-import { Button } from "@/components/elements";
+import { Button, Card } from "@/components/elements";
 
 export const RouterContractInfo = () => {
   const [accountOwner, setAccountOwner] = useState("");
   const [totalContributors, setTotalContributors] = useState("");
   const [contractBalance, setContractBalance] = useState("");
+  const [allContributors, setAllContributors] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -26,23 +27,28 @@ export const RouterContractInfo = () => {
 
   const fetchData = useCallback(async () => {
     console.log("routerContract", routerContract);
-    try {
-      const owner = await routerContract.owner();
-      setAccountOwner(owner);
-      const getBalance = await routerContract.getBalance();
-      setContractBalance(getBalance.toString());
-      const getTotalNumberOfContributors =
-        await routerContract.getTotalNumberOfContributors();
-      setTotalContributors(getTotalNumberOfContributors.toString());
-      setError("");
-    } catch (error) {
-      setError("Contract couldn't be fetched.  Please check your network.");
-    }
+    if (loading)
+      try {
+        const owner = await routerContract.owner();
+        setAccountOwner(owner);
+        const getBalance = await routerContract.getBalance();
+        setContractBalance(getBalance.toString());
+        const getTotalNumberOfContributors =
+          await routerContract.getTotalNumberOfContributors();
+        setTotalContributors(getTotalNumberOfContributors.toString());
+        for (let i = 0; i < getTotalNumberOfContributors; i++) {
+          const contributor = await routerContract.contributors(i);
+          setAllContributors((prev: any) => [...prev, contributor]);
+        }
+        setError("");
+      } catch (error) {
+        setError("Contract couldn't be fetched.  Please check your network.");
+      }
     setLoading(false);
   }, [routerContract]);
 
   useEffect(() => {
-    if (provider) {
+    if (provider && routerContract) {
       fetchData();
     }
   }, [provider, routerContract, fetchData]);
@@ -56,13 +62,19 @@ export const RouterContractInfo = () => {
   }
 
   return (
-    <div className={`border rounded-md my-4 p-4`}>
+    <Card shadow border className={`p-6 bg-white my-4`}>
       <div className={`text-lg font-bold`}>Router Contract Info</div>
       <div>contract address : {MONEY_ROUTER_ADDRESS}</div>
       <span>owner address : {accountOwner}</span>
       <div>total contributors : {totalContributors}</div>
       <div>contract balance : {contractBalance}</div>
+      {/* {allContributors?.map((contributor: any, index: number) => (
+        <div key={index}>
+          <span>contributor address : {contributor}</span>
+        </div>
+      ))} */}
+
       <Button onClick={() => fetchData()}>Refresh</Button>
-    </div>
+    </Card>
   );
 };

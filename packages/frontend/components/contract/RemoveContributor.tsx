@@ -4,7 +4,7 @@ import { useContract, useSigner } from "wagmi";
 import moneyRouter from "@/abis/moneyRouter.json";
 import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
-import { Button, TextField } from "@/components/elements";
+import { Button, Card, TextField } from "@/components/elements";
 
 export const RemoveContributor = () => {
   const { data: signerData } = useSigner();
@@ -32,9 +32,10 @@ export const RemoveContributor = () => {
   };
 
   return (
-    <div className={`border rounded-md my-4 p-4`}>
+    <Card shadow border className={`p-6 bg-white my-4`}>
       <TextField
         label={`remove contributor`}
+        placeholder={`0x0000000000000000000000000000000000000000`}
         value={contributor}
         onChange={(e) => setContributor(e.target.value)}
       />
@@ -43,6 +44,6 @@ export const RemoveContributor = () => {
           remove contributor
         </Button>
       </div>
-    </div>
+    </Card>
   );
 };
