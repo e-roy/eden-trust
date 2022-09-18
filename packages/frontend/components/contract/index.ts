@@ -5,3 +5,4 @@ export { ChangeOwner } from "./ChangeOwner";
 export { AccountList } from "./AccountList";
 export { SendLumpSum } from "./SendLumpSum";
 export { AllowAccount } from "./AllowAccount";
+export { CreateFlow } from "./CreateFlow";

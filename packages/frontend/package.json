@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "npm run build && next export"
+    "export": "npm run build && next export",
+    "codegen": "graphql-codegen --config apollo/codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -23,12 +24,18 @@
     "wagmi": "^0.6.6"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.12.0",
+    "@graphql-codegen/fragment-matcher": "^3.3.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
     "@headlessui/react": "^1.7.2",
     "@heroicons/react": "^2.0.11",
     "@types/node": "^18.7.6",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "autoprefixer": "^10.4.7",
+    "cross-fetch": "^3.1.5",
     "eslint": "^8.22.0",
     "eslint-config-next": "^12.2.5",
     "postcss": "^8.4.14",

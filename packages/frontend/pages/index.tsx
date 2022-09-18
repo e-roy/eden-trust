@@ -9,6 +9,7 @@ import {
   AccountList,
   SendLumpSum,
   AllowAccount,
+  CreateFlow,
 } from "@/components/contract";
 
 import { GetAccountInfo } from "@/components/superfluid";
@@ -34,6 +35,7 @@ export default function Home() {
         <ChangeOwner />
         <AccountList />
         <SendLumpSum />
+        <CreateFlow />
       </main>
     </div>
   );

@@ -13,7 +13,8 @@
     "compile": "yarn workspace @create-web3/backend compile",
     "test": "yarn workspace @create-web3/backend test",
     "clean": "yarn workspace @create-web3/backend clean",
-    "deploy": "yarn workspace @create-web3/backend deploy"
+    "deploy": "yarn workspace @create-web3/backend deploy",
+    "codegen": "yarn workspace @create-web3/frontend codegen"
   },
   "workspaces": {
     "packages": [
