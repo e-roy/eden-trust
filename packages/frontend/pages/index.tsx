@@ -10,6 +10,7 @@ import {
   SendLumpSum,
   AllowAccount,
   CreateFlow,
+  WithdrawFunds,
 } from "@/components/contract";
 
 import { GetAccountInfo } from "@/components/superfluid";
@@ -36,6 +37,7 @@ export default function Home() {
         <AccountList />
         <SendLumpSum />
         <CreateFlow />
+        <WithdrawFunds />
       </main>
     </div>
   );

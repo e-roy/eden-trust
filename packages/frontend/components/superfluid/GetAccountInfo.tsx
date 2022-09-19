@@ -11,9 +11,18 @@ export const FIND_ACCOUNT = gql`
       updatedAtBlockNumber
       updatedAtTimestamp
       receivedTransferEvents {
+        id
         addresses
-        blockNumber
-        gasPrice
+        value
+        token
+      }
+      sentTransferEvents {
+        addresses
+        id
+        value
+        token
+      }
+      publishedIndexes {
         id
       }
     }
@@ -34,6 +43,28 @@ export const GetAccountInfo = () => {
   return (
     <Card shadow border className={`p-6 bg-white my-4`}>
       <div className={`text-lg font-bold`}>Superfluid Account Info</div>
+      <div>createdAtBlockNumber : {data?.account.createdAtBlockNumber}</div>
+      <div>createdAtTimestamp : {data?.account.createdAtTimestamp}</div>
+      <div>isSuperApp : {data?.account.isSuperApp ? "true" : "false"}</div>
+      <div>updatedAtBlockNumber : {data?.account.updatedAtBlockNumber}</div>
+      <div>updatedAtTimestamp : {data?.account.updatedAtTimestamp}</div>
+
+      {data?.account.receivedTransferEvents.map((event: any, index: number) => (
+        <div key={index} className={`border p-4 rounded-lg my-4`}>
+          <div>Received Transfer Event</div>
+          <div>id : {event.id}</div>
+          <div>token : {event.token}</div>
+          <div>value : {event.value}</div>
+          <div>
+            addresses :
+            {event.addresses.map((address: string, index: number) => (
+              <div className={"border p-2"} key={index}>
+                {address}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </Card>
   );
 };
