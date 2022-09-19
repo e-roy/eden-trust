@@ -28,17 +28,17 @@ export const WithdrawFunds = () => {
       });
       const daix = await sf.loadSuperToken("fDAIx");
       console.log("daix", daix);
-      // const tx = await routerContract.withdrawFunds(
-      //   daix.address,
-      //   ethers.utils.parseEther(amount),
-      //   {
-      //     gasLimit: "1000000",
-      //   }
-      // );
+      const tx = await routerContract.withdrawFunds(
+        daix.address,
+        ethers.utils.parseEther(amount),
+        {
+          gasLimit: "1000000",
+        }
+      );
 
-      // tx.wait(1).then((res: any) => {
-      //   console.log(res);
-      // });
+      tx.wait(1).then((res: any) => {
+        console.log(res);
+      });
       setAmount("");
     } catch (error) {
       console.log(error);

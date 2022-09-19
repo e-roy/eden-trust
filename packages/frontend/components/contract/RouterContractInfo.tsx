@@ -31,15 +31,15 @@ export const RouterContractInfo = () => {
       try {
         const owner = await routerContract.owner();
         setAccountOwner(owner);
-        const getBalance = await routerContract.getBalance();
-        setContractBalance(getBalance.toString());
-        const getTotalNumberOfContributors =
-          await routerContract.getTotalNumberOfContributors();
-        setTotalContributors(getTotalNumberOfContributors.toString());
-        for (let i = 0; i < getTotalNumberOfContributors; i++) {
-          const contributor = await routerContract.contributors(i);
-          setAllContributors((prev: any) => [...prev, contributor]);
-        }
+        // const getBalance = await routerContract.getBalance();
+        // setContractBalance(getBalance.toString());
+        // const getTotalNumberOfContributors =
+        //   await routerContract.getTotalNumberOfContributors();
+        // setTotalContributors(getTotalNumberOfContributors.toString());
+        // for (let i = 0; i < getTotalNumberOfContributors; i++) {
+        //   const contributor = await routerContract.contributors(i);
+        //   setAllContributors((prev: any) => [...prev, contributor]);
+        // }
         setError("");
       } catch (error) {
         setError("Contract couldn't be fetched.  Please check your network.");

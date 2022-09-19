@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useContract, useSigner, useProvider } from "wagmi";
 import { Framework } from "@superfluid-finance/sdk-core";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 
 import moneyRouter from "@/abis/moneyRouter.json";
 import { MONEY_ROUTER_ADDRESS, NETWORK_ID } from "@/constants";
@@ -20,7 +20,7 @@ export const CreateFlow = () => {
 
   const [flowAmount, setFlowAmount] = useState("");
 
-  const handleCreateFlow = useCallback(async () => {
+  const handleCreateFlow = async () => {
     try {
       const sf = await Framework.create({
         chainId: NETWORK_ID,
@@ -30,7 +30,9 @@ export const CreateFlow = () => {
       //   console.log("daix", daix);
       const tx = await routerContract.createFlowFromContract(
         daix.address,
-        ethers.utils.parseEther(flowAmount),
+        // "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+        "385802469135802",
+        // ethers.utils.parseEther(flowAmount),
         {
           gasLimit: "1000000",
         }
@@ -43,17 +45,17 @@ export const CreateFlow = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [flowAmount]);
+  };
 
   return (
     <Card shadow border className={`p-6 bg-white my-4`}>
       <div className={`text-lg font-bold`}>Create Flow</div>
-      <TextField
+      {/* <TextField
         label={`create flow`}
         placeholder={`5`}
         value={flowAmount}
         onChange={(e) => setFlowAmount(e.target.value)}
-      />
+      /> */}
       <div className={"mt-4"}>
         <Button onClick={() => handleCreateFlow()}>create flow</Button>
       </div>

@@ -1,5 +1,11 @@
 import { useState, useCallback } from "react";
-import { useContract, useSigner, useProvider } from "wagmi";
+import {
+  useContract,
+  useSigner,
+  useProvider,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
 
@@ -18,6 +24,24 @@ export const SendLumpSum = () => {
     signerOrProvider: signerData,
   });
 
+  const { config } = usePrepareContractWrite({
+    addressOrName: MONEY_ROUTER_ADDRESS,
+    contractInterface: moneyRouter.abi,
+    functionName: "sendLumpSumToContract",
+    args: [
+      "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+      ethers.utils.parseEther("5"),
+      {
+        gasLimit: "1000000",
+      },
+    ],
+  });
+  const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
+  // console.log("data", data);
+  // console.log("isLoading", isLoading);
+  // console.log("isSuccess", isSuccess);
+
   const [lumpSum, setLumpSum] = useState("");
 
   const handleSendLumpSum = useCallback(async () => {
@@ -31,6 +55,7 @@ export const SendLumpSum = () => {
       const tx = await routerContract.sendLumpSumToContract(
         daix.address,
         ethers.utils.parseEther(lumpSum),
+        // ethers.utils.parseEther("500"),
         {
           gasLimit: "1000000",
         }
