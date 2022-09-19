@@ -20,7 +20,7 @@ async function main() {
   // await hre.run('compile');
 
   //NOTE - make sure you add the address of the previously deployed money router contract on your network
-  const moneyRouterAddress = "0x20D765573479b50d3e72580a8fB06661cb544078";
+  const moneyRouterAddress = "0xB4B23Db28ED7F94e0D274027e8eaD3EC5aee7318";
 
   const provider = new hre.ethers.providers.JsonRpcProvider(
     process.env.MUMBAI_URL
@@ -41,10 +41,10 @@ async function main() {
 
   const daix = await sf.loadSuperToken("fDAIx");
 
-  //! approve contract to spend 1000 daix / fDaix
+  //! approve contract to spend 10000 daix / fDAIx
   const moneyRouterApproval = daix.approve({
     receiver: moneyRouter.address,
-    amount: ethers.utils.parseEther("1000"),
+    amount: ethers.utils.parseEther("10000"),
   });
 
   await moneyRouterApproval.exec(signers[0]).then(function(tx) {
