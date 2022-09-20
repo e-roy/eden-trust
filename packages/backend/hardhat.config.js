@@ -17,7 +17,7 @@ module.exports = {
   solidity: "0.8.14",
   networks: {
     hardhat: {
-      blockGasLimit: 1000000000,
+      blockGasLimit: 100000000000,
     },
     mumbai: {
       url: process.env.MUMBAI_URL || "",

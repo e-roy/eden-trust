@@ -16,9 +16,6 @@ contract MoneyRouter {
     /// @notice Owner.
     address public owner;
 
-    /// @notice contributors
-    address[] public contributors;
-
     /// @notice CFA Library.
     using CFAv1Library for CFAv1Library.InitData;
     CFAv1Library.InitData public cfaV1;
@@ -58,24 +55,15 @@ contract MoneyRouter {
         _;
     }
 
-    /// @notice Add contributor
-    function addContributors(address _contributors) public {
-        contributors.push(_contributors);
-    }
-
     /// @notice Add account to allow list.
     /// @param _account Account to allow.
     function allowAccount(address _account) external onlyOwner {
-        // if (msg.sender != owner) revert Unauthorized();
-
         accountList[_account] = true;
     }
 
     /// @notice Removes account from allow list.
     /// @param _account Account to disallow.
     function removeAccount(address _account) external onlyOwner {
-        // if (msg.sender != owner) revert Unauthorized();
-
         accountList[_account] = false;
     }
 
@@ -83,6 +71,7 @@ contract MoneyRouter {
     /// @param _newOwner New owner account.
     function changeOwner(address _newOwner) external onlyOwner {
         // if (msg.sender != owner) revert Unauthorized();
+
         owner = _newOwner;
     }
 
@@ -94,8 +83,7 @@ contract MoneyRouter {
         external
         onlyAllowList
     {
-        // if (!accountList[msg.sender] && msg.sender != owner)
-        //     revert Unauthorized();
+        // if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
 
         token.transferFrom(msg.sender, address(this), amount);
     }
@@ -104,12 +92,8 @@ contract MoneyRouter {
     // /// @dev This requires the contract to be a flowOperator for the msg sender.
     // /// @param token Token to stream.
     // /// @param flowRate Flow rate per second to stream.
-    // function createFlowIntoContract(ISuperfluidToken token, int96 flowRate)
-    //     external
-    //     onlyAllowList
-    // {
-    //     // if (!accountList[msg.sender] && msg.sender != owner)
-    //     //     revert Unauthorized();
+    // function createFlowIntoContract(ISuperfluidToken token, int96 flowRate) external onlyAllowList {
+    //     // if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
 
     //     cfaV1.createFlowByOperator(msg.sender, address(this), token, flowRate);
     // }
@@ -118,24 +102,16 @@ contract MoneyRouter {
     // /// @dev This requires the contract to be a flowOperator for the msg sender.
     // /// @param token Token to stream.
     // /// @param flowRate Flow rate per second to stream.
-    // function updateFlowIntoContract(ISuperfluidToken token, int96 flowRate)
-    //     external
-    //     onlyAllowList
-    // {
-    //     // if (!accountList[msg.sender] && msg.sender != owner)
-    //     //     revert Unauthorized();
+    // function updateFlowIntoContract(ISuperfluidToken token, int96 flowRate) external onlyAllowList{
+    //     if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
 
     //     cfaV1.updateFlowByOperator(msg.sender, address(this), token, flowRate);
     // }
 
     // /// @notice Delete a stream that the msg.sender has open into the contract.
     // /// @param token Token to quit streaming.
-    // function deleteFlowIntoContract(ISuperfluidToken token)
-    //     external
-    //     onlyAllowList
-    // {
-    //     // if (!accountList[msg.sender] && msg.sender != owner)
-    //     //     revert Unauthorized();
+    // function deleteFlowIntoContract(ISuperfluidToken token) external onlyAllowList{
+    //     if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
 
     //     cfaV1.deleteFlow(msg.sender, address(this), token);
     // }
@@ -147,72 +123,50 @@ contract MoneyRouter {
         external
         onlyAllowList
     {
-        // if (!accountList[msg.sender] && msg.sender != owner)
-        //     revert Unauthorized();
+        // if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
 
         token.transfer(msg.sender, amount);
     }
 
     /// @notice Create flow from contract to specified address.
     /// @param token Token to stream.
-    //   // / @param receiver Receiver of stream.
+    /// @param receiver Receiver of stream.
     /// @param flowRate Flow rate per second to stream.
     function createFlowFromContract(
         ISuperfluidToken token,
-        // address receiver, //!testing
+        address receiver,
         int96 flowRate
     ) external onlyAllowList {
-        // if (!accountList[msg.sender] && msg.sender != owner)
-        //     revert Unauthorized();
-        for (uint256 i = 0; i < contributors.length; i++) {
-            cfaV1.createFlow(contributors[i], token, flowRate);
-        }
+        if (!accountList[msg.sender] && msg.sender != owner)
+            revert Unauthorized();
+
+        cfaV1.createFlow(receiver, token, flowRate);
     }
 
     /// @notice Update flow from contract to specified address.
     /// @param token Token to stream.
-    //    /// @param receiver Receiver of stream.
+    /// @param receiver Receiver of stream.
     /// @param flowRate Flow rate per second to stream.
     function updateFlowFromContract(
         ISuperfluidToken token,
-        // address receiver, //!testing
+        address receiver,
         int96 flowRate
     ) external onlyAllowList {
-        // if (!accountList[msg.sender] && msg.sender != owner)
-        //     revert Unauthorized();
-        for (uint256 i = 0; i < contributors.length; i++) {
-            cfaV1.updateFlow(contributors[i], token, flowRate);
-        }
+        if (!accountList[msg.sender] && msg.sender != owner)
+            revert Unauthorized();
+
+        cfaV1.updateFlow(receiver, token, flowRate);
     }
 
     /// @notice Delete flow from contract to specified address.
     /// @param token Token to stop streaming.
-    /// @param receiver Receiver of stream. address of the contributor
+    /// @param receiver Receiver of stream.
     function deleteFlowFromContract(ISuperfluidToken token, address receiver)
         external
-        onlyAllowList
     {
-        // if (!accountList[msg.sender] && msg.sender != owner)
-        //     revert Unauthorized();
+        if (!accountList[msg.sender] && msg.sender != owner)
+            revert Unauthorized();
 
         cfaV1.deleteFlow(address(this), receiver, token);
-    }
-
-    /// @notice view function
-
-    /// @notice view function to get the total number of Contributors
-    function getTotalNumberOfContributors() public view returns (uint256) {
-        return contributors.length;
-    }
-
-    ///@notice Function to receive Ether. msg.data must be empty
-    receive() external payable {}
-
-    ///@notice Fallback function is called when msg.data is not empty
-    fallback() external payable {}
-
-    /// @notice function to get the balance of the contract
-    function getBalance() public view returns (uint256) {
-        return address(this).balance;
     }
 }

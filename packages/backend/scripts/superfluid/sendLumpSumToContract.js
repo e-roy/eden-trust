@@ -20,7 +20,7 @@ async function main() {
   // await hre.run('compile');
 
   //NOTE - make sure you add the address of the previously deployed money router contract on your network
-  const moneyRouterAddress = "0x20D765573479b50d3e72580a8fB06661cb544078";
+  const moneyRouterAddress = "0xB4B23Db28ED7F94e0D274027e8eaD3EC5aee7318";
 
   const provider = new hre.ethers.providers.JsonRpcProvider(
     process.env.MUMBAI_URL
