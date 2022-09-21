@@ -12,32 +12,36 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  Chain,
+  // Chain,
 } from "@rainbow-me/rainbowkit";
 
 import { useIsMounted } from "../hooks";
+
+import { ApolloProvider } from "@apollo/client";
+import { apolloClient } from "@/apollo";
 
 // Get environment variables
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 // const infuraId = process.env.NEXT_PUBLIC_INFURA_ID as string;
 
-const hardhatChain: Chain = {
-  id: 31337,
-  name: "Hardhat",
-  nativeCurrency: {
-    decimals: 18,
-    name: "Hardhat",
-    symbol: "HARD",
-  },
-  network: "hardhat",
-  rpcUrls: {
-    default: "http://127.0.0.1:8545",
-  },
-  testnet: true,
-};
+// const hardhatChain: Chain = {
+//   id: 31337,
+//   name: "Hardhat",
+//   nativeCurrency: {
+//     decimals: 18,
+//     name: "Hardhat",
+//     symbol: "HARD",
+//   },
+//   network: "hardhat",
+//   rpcUrls: {
+//     default: "http://127.0.0.1:8545",
+//   },
+//   testnet: true,
+// };
 
 const { chains, provider } = configureChains(
-  [chain.polygon, chain.polygonMumbai, hardhatChain],
+  // [chain.polygon, chain.polygonMumbai, hardhatChain],
+  [chain.polygonMumbai],
   [alchemyProvider({ apiKey: alchemyId }), publicProvider()]
 );
 
@@ -57,14 +61,16 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   if (!isMounted) return null;
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider coolMode chains={chains}>
-        <NextHead>
-          <title>create-web3</title>
-        </NextHead>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ApolloProvider client={apolloClient()}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider coolMode chains={chains}>
+          <NextHead>
+            <title>create-web3</title>
+          </NextHead>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ApolloProvider>
   );
 };
 

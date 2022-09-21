@@ -1,0 +1,6 @@
+schema: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai"
+generates:
+  apollo/generated/graphqlSuperfluid.ts:
+    plugins:
+      - "typescript"
+      - "fragment-matcher"
