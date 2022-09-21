@@ -56,7 +56,7 @@ contract Trust {
 
     // give money to believers and owner
     function gettingPaid(uint256 _amount) payable public{
-        if(_amount < 100000000000000 && msg.value < _amount)  { // 0.0001 ETH
+        if(_amount < 100000000000000 || msg.value < _amount)  { // 0.0001 ETH
             revert SEND_MORE_FUNDS();
         }  
         projectCount++;
