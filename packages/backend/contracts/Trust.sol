@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.0;
 
 error SEND_MORE_FUNDS();
 error TRANSFER_FAILED();
