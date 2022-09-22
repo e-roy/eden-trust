@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.14;
 
 import "./Trust.sol";
 
@@ -63,7 +63,6 @@ contract TrustFactory{
 
     // Fallback function is called when msg.data is not empty
       fallback() external payable {}
-
 
 }
 
