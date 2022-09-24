@@ -12,9 +12,6 @@ contract Trust {
     // address of owner
     address public immutable owner;
 
-    // profile ID of user/owner. profile ID will be given to junior when she/he creates the ID on our platform.
-    uint256 public immutable profileID;
-
     // percentage of profit he/she is willing to give
     uint256 public immutable percentage;
 
@@ -27,18 +24,21 @@ contract Trust {
     // count of projects done
     uint256 public projectCount;
 
-    //
+    // address of the trustFactory contract
     address payable public platformAddress;
 
     // contract creation time
     uint256 public contractCreationTime;
 
-
-    constructor(uint256 _profileID, uint256 _percentage, address _owner, uint256 _gigCount, address _platformAddress) {
+    constructor(
+        uint256 _percentage,
+        address _owner,
+        uint256 _gigCount,
+        address _platformAddress
+    ) {
         // Store the address of the deployer as a payable address.
         // When we withdraw funds, we'll withdraw here.
         owner = payable(_owner);
-        profileID = _profileID;
         percentage = _percentage;
         gigCount = _gigCount;
         platformAddress = payable(_platformAddress);
@@ -47,54 +47,60 @@ contract Trust {
     }
 
     // adding senior / Believer to the believers array
-    function AddBeliever() payable public {
-        if(msg.value < 100000000000000000){
+    function AddBeliever() public payable {
+        if (msg.value < 1e17) {
+            // 1,00,000,000,000,000,000 = 1e17 = 1 * 10 * 17 = 0.1 Eth
             revert SEND_MORE_FUNDS();
         }
         believers.push(msg.sender);
     }
 
     // give money to believers and owner
-    function gettingPaid(uint256 _amount) payable public{
-        if(_amount < 100000000000000 || msg.value < _amount)  { // 0.0001 ETH
+    function gettingPaid(uint256 _amount) public payable {
+        if (_amount < 1e14 || msg.value < _amount) {
+            // 1,00,000,000,000,000 = 1e14 = 1 * 10 ** 14 =  0.0001 ETH
             revert SEND_MORE_FUNDS();
-        }  
+        }
         projectCount++;
         // sending money to believers
         uint256 believersAmount = (msg.value * percentage) / 100;
-        if(believers.length >= 1){
-        for(uint256 i=0; i < believers.length; i++){
-            (bool success, ) = believers[i].call{value: believersAmount / believers.length }("");
-            // require(success, "Transfer failed");
-            if(!success){
-                revert TRANSFER_FAILED();
+        if (believers.length >= 1) {
+            for (uint256 i = 0; i < believers.length; i++) {
+                (bool success, ) = believers[i].call{
+                    value: believersAmount / believers.length
+                }("");
+                // require(success, "Transfer failed");
+                if (!success) {
+                    revert TRANSFER_FAILED();
+                }
             }
         }
-    }
         // sending money to contract owner
-        (bool success1, ) = owner.call{value: msg.value - believersAmount }("");
-         if(!success1){
-                revert TRANSFER_FAILED();
-            }
+        (bool success1, ) = owner.call{value: msg.value - believersAmount}("");
+        if (!success1) {
+            revert TRANSFER_FAILED();
+        }
     }
 
     // function to free owner from paying cut to bieleivers
     function freeOwner() public {
-        if(msg.sender != owner){
+        if (msg.sender != owner) {
             revert ONLY_ONWER_CAN_CALL_FUNCTION();
         }
-        if(projectCount < gigCount){
+        if (projectCount < gigCount) {
             revert JOB_NOT_DONE();
         }
-        
+
         // send stake money back to believers
-        if(believers.length >= 1){
-        for(uint256 i=0; i < believers.length; i++){
-            (bool success, ) = believers[i].call{value: 100000000000000000 / believers.length }(""); // 0.1 Ether
-            if(!success){
-                revert TRANSFER_FAILED();
+        if (believers.length >= 1) {
+            for (uint256 i = 0; i < believers.length; i++) {
+                (bool success, ) = believers[i].call{
+                    value: 1e17 / believers.length
+                }(""); // 0.1 Ether
+                if (!success) {
+                    revert TRANSFER_FAILED();
+                }
             }
-        }
         }
 
         // empty the array
@@ -103,49 +109,48 @@ contract Trust {
 
     // function to get money to platform if the owner cannot able to perform and get gis and complete them
     function platformGettingPaid() public {
-        if(projectCount > gigCount){
+        if (projectCount > gigCount) {
             revert JOB_DONE();
         }
         // testing
-        if(block.timestamp < contractCreationTime + 10 minutes){
+        if (block.timestamp < contractCreationTime + 10 minutes) {
             revert STILL_HAVE_TIME();
         }
         // production
         // if(block.timestamp < contractCreationTime + 12 weeks){
         //     revert STILL_HAVE_TIME();
         // }
-        (bool success1, ) = platformAddress.call{value: address(this).balance }("");
-         if(!success1){
-                revert TRANSFER_FAILED();
-            }
-
+        (bool success1, ) = platformAddress.call{value: address(this).balance}(
+            ""
+        );
+        if (!success1) {
+            revert TRANSFER_FAILED();
+        }
     }
 
-
-    // get the balance 
-    function getContractBalance() public view returns(uint256){
+    // get the balance
+    function getContractBalance() public view returns (uint256) {
         return address(this).balance;
     }
 
     // get the length of array
-    function noOfBelievers() public view returns(uint256){
+    function noOfBelievers() public view returns (uint256) {
         return believers.length;
     }
 
     // get the balance of owner
-    function getOwnerBalance() public view returns(uint256){
+    function getOwnerBalance() public view returns (uint256) {
         return owner.balance;
     }
 
     // get the balance of 1st beliver
-    function getBeliverBalance() public view returns(uint256){
+    function getBeliverBalance() public view returns (uint256) {
         return believers[0].balance;
     }
 
     // Function to receive Ether. msg.data must be empty
-      receive() external payable {}
+    receive() external payable {}
 
     // Fallback function is called when msg.data is not empty
-      fallback() external payable {}
-
+    fallback() external payable {}
 }
