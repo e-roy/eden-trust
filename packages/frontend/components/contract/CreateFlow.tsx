@@ -18,7 +18,8 @@ export const CreateFlow = () => {
     signerOrProvider: signerData,
   });
 
-  const [flowAmount, setFlowAmount] = useState("");
+  // const [flowAmount, setFlowAmount] = useState("");
+  const [account, setAccount] = useState("");
 
   const handleCreateFlow = async () => {
     try {
@@ -30,6 +31,7 @@ export const CreateFlow = () => {
       //   console.log("daix", daix);
       const tx = await routerContract.createFlowFromContract(
         daix.address,
+        account,
         // "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
         "385802469135802",
         // ethers.utils.parseEther(flowAmount),
@@ -41,7 +43,8 @@ export const CreateFlow = () => {
       tx.wait(1).then((res: any) => {
         console.log(res);
       });
-      setFlowAmount("");
+      // setFlowAmount("");
+      setAccount("");
     } catch (error) {
       console.log(error);
     }
@@ -50,12 +53,12 @@ export const CreateFlow = () => {
   return (
     <Card shadow border className={`p-6 bg-white my-4`}>
       <div className={`text-lg font-bold`}>Create Flow</div>
-      {/* <TextField
-        label={`create flow`}
-        placeholder={`5`}
-        value={flowAmount}
-        onChange={(e) => setFlowAmount(e.target.value)}
-      /> */}
+      <TextField
+        label={`receiver's address`}
+        placeholder={`0x0000000000000000000000000000000000000000`}
+        value={account}
+        onChange={(e) => setAccount(e.target.value)}
+      />
       <div className={"mt-4"}>
         <Button onClick={() => handleCreateFlow()}>create flow</Button>
       </div>

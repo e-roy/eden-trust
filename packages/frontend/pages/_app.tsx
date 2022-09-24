@@ -12,10 +12,16 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  // Chain,
+  Chain,
+  Theme,
+  lightTheme,
 } from "@rainbow-me/rainbowkit";
+import merge from "lodash.merge";
+import { ENV_PROD, ENV_DEV } from "@/constants";
 
 import { useIsMounted } from "../hooks";
+
+import { AppLayout } from "@/components/layout";
 
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "@/apollo";
@@ -24,29 +30,39 @@ import { apolloClient } from "@/apollo";
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 // const infuraId = process.env.NEXT_PUBLIC_INFURA_ID as string;
 
-// const hardhatChain: Chain = {
-//   id: 31337,
-//   name: "Hardhat",
-//   nativeCurrency: {
-//     decimals: 18,
-//     name: "Hardhat",
-//     symbol: "HARD",
-//   },
-//   network: "hardhat",
-//   rpcUrls: {
-//     default: "http://127.0.0.1:8545",
-//   },
-//   testnet: true,
-// };
+const hardhatChain: Chain = {
+  id: 31337,
+  name: "Hardhat",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Hardhat",
+    symbol: "HARD",
+  },
+  network: "hardhat",
+  rpcUrls: {
+    default: "http://127.0.0.1:8545",
+  },
+  testnet: true,
+};
 
-const { chains, provider } = configureChains(
-  // [chain.polygon, chain.polygonMumbai, hardhatChain],
-  [chain.polygonMumbai],
-  [alchemyProvider({ apiKey: alchemyId }), publicProvider()]
-);
+const networks = [];
+if (ENV_PROD) {
+  // networks.push(chain.polygon);
+  networks.push(chain.polygonMumbai);
+}
+
+if (ENV_DEV) {
+  networks.push(chain.polygonMumbai);
+  networks.push(hardhatChain);
+}
+
+const { chains, provider } = configureChains(networks, [
+  alchemyProvider({ apiKey: alchemyId }),
+  publicProvider(),
+]);
 
 const { connectors } = getDefaultWallets({
-  appName: "create-web3",
+  appName: "",
   chains,
 });
 
@@ -56,6 +72,12 @@ const wagmiClient = createClient({
   provider,
 });
 
+const customTheme: Theme = merge(lightTheme(), {
+  colors: {
+    accentColor: "linear-gradient(to right, #9333ea, #4f46e5)",
+  },
+});
+
 const App = ({ Component, pageProps }: AppProps) => {
   const isMounted = useIsMounted();
 
@@ -63,11 +85,13 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ApolloProvider client={apolloClient()}>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider coolMode chains={chains}>
+        <RainbowKitProvider chains={chains} theme={customTheme}>
           <NextHead>
-            <title>create-web3</title>
+            <title>trust app</title>
           </NextHead>
-          <Component {...pageProps} />
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
         </RainbowKitProvider>
       </WagmiConfig>
     </ApolloProvider>

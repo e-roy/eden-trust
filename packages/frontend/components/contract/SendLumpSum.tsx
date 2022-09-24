@@ -54,8 +54,8 @@ export const SendLumpSum = () => {
       // console.log("daix", daix);
       const tx = await routerContract.sendLumpSumToContract(
         daix.address,
-        ethers.utils.parseEther(lumpSum),
-        // ethers.utils.parseEther("500"),
+        // ethers.utils.parseEther(lumpSum),
+        ethers.utils.parseEther("5"),
         {
           gasLimit: "1000000",
         }
