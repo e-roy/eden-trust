@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 import trust from "@/abis/trust.json";
 
-import { Button, Card, TextField } from "@/components/elements";
+import { Button, TextField } from "@/components/elements";
 
 export interface IAddBelieverProps {
   contractAddress: string;
@@ -15,7 +15,7 @@ export const AddBeliever = ({ contractAddress }: IAddBelieverProps) => {
   const { data: signerData } = useSigner();
 
   const trustContract = useContract({
-    addressOrName: "0x440C0fCDC317D69606eabc35C0F676D1a8251Ee1",
+    addressOrName: contractAddress,
     contractInterface: trust.abi,
     signerOrProvider: signerData,
   });
