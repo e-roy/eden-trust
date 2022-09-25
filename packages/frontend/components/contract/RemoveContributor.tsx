@@ -32,7 +32,7 @@ export const RemoveContributor = () => {
   };
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <TextField
         label={`remove contributor`}
         placeholder={`0x0000000000000000000000000000000000000000`}

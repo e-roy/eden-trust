@@ -15,13 +15,13 @@ export const TrustFactoryInfo = () => {
 
   const [percentage, setPercentage] = useState("");
   const [gigCount, setGigCount] = useState("");
+  const [balanceContract, setBalanceContract] = useState("");
+  const [balanceOwner, setBalanceOwner] = useState("");
+  const [believers, setBelievers] = useState("");
 
   const provider = useProvider();
 
   const { address } = useAccount();
-
-  // We only need to add function to our function like
-  // addOwner, add Contributor, addStream and other such function we define in our smart contract
 
   const trustFactoryContract = useContract({
     addressOrName: TRUST_FACTORY_ADDRESS,
@@ -36,29 +36,47 @@ export const TrustFactoryInfo = () => {
   });
 
   const handleContractData = async () => {
-    console.log("trustContract", trustContract);
+    // console.log("trustContract", trustContract);
+    if (usersContract !== "0x0000000000000000000000000000000000000000")
+      try {
+        const percentage = await trustContract.percentage();
+        setPercentage(percentage.toString());
+        const gigCount = await trustContract.gigCount();
+        setGigCount(gigCount.toString());
+        const balanceContract = await trustContract.getContractBalance();
+        setBalanceContract(balanceContract.toString());
+        const balanceOwner = await trustContract.getContractBalance();
+        setBalanceOwner(balanceOwner.toString());
+        const noOfBelievers = await trustContract.noOfBelievers();
+        setBelievers(noOfBelievers.toString());
 
-    try {
-      const percentage = await trustContract.percentage();
-      setPercentage(percentage.toString());
-      const gigCount = await trustContract.gigCount();
-      setGigCount(gigCount.toString());
-    } catch (error) {
-      console.log(error);
-    }
+        const getOwnerBalance = await trustContract.getOwnerBalance();
+        console.log("getOwnerBalance", getOwnerBalance.toString());
+
+        const platformAddress = await trustContract.platformAddress();
+        console.log("platformAddress", platformAddress);
+        const creation = await trustContract.contractCreationTime();
+        console.log("creation", creation);
+      } catch (error) {
+        console.log(error);
+      }
   };
 
   const fetchData = useCallback(async () => {
-    console.log("trustFactoryContract", trustFactoryContract);
+    // console.log("trustFactoryContract", trustFactoryContract);
     if (loading)
       try {
         const num = await trustFactoryContract.numOfTrustContracts();
         setNumOfContracts(num.toString());
+        console.log(address);
         const contract = await trustFactoryContract.searchByAddress(address);
         setUsersContract(contract);
-        console.log("contract", contract);
-        // const balance = await trustFactoryContract.getContractBalance();
-        // console.log("balance", balance);
+        console.log("usersContract", contract);
+        // const balanceContract = await trustFactoryContract.getContractBalance();
+        // setBalanceContract(balanceContract.toString());
+        // const balanceOwner = await trustFactoryContract.getContractBalance();
+        // setBalanceOwner(balanceOwner.toString());
+
         setError("");
         setLoading(false);
       } catch (error) {
@@ -83,7 +101,7 @@ export const TrustFactoryInfo = () => {
   }
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Trust Factory Contract Info</div>
       <div>contract address : {TRUST_FACTORY_ADDRESS}</div>
       <div>number of contracts : {numOfContracts}</div>
@@ -92,6 +110,9 @@ export const TrustFactoryInfo = () => {
         <div>your contract data</div>
         <div>percentage : {percentage}</div>
         <div>gigCount : {gigCount}</div>
+        <div>balanceContract : {balanceContract}</div>
+        <div>balanceOwner: {balanceOwner}</div>
+        <div>believers : {believers}</div>
       </div>
 
       <Button onClick={() => handleContractData()}>get contract data</Button>
