@@ -10,34 +10,33 @@ import { Button } from "@/components/elements";
 export interface IGetPaidProps {
   contractAddress: string;
   balanceContract: string;
+  refetch: () => void;
 }
 
 export const GetPaid = ({
   contractAddress,
   balanceContract,
+  refetch,
 }: IGetPaidProps) => {
   const { data: signerData } = useSigner();
 
-  const trustFactoryContract = useContract({
+  const trustContract = useContract({
     addressOrName: contractAddress,
     contractInterface: trust.abi,
     signerOrProvider: signerData,
   });
 
+  console.log("trustContract", trustContract);
+
   const handleCreateTrust = async () => {
     try {
-      const tx = await trustFactoryContract.gettingPaid(
-        ethers.utils.parseEther(balanceContract),
-        // balanceContract,
-        // "9999980487952045105099",
-        {
-          gasLimit: "10000000",
-          //   value: balanceContract,
-          //   value: ethers.utils.parseEther("0.5"),
-        }
-      );
+      const tx = await trustContract.freeOwner({
+        gasLimit: "10000000",
+        // value: ethers.utils.parseEther("50"),
+      });
       tx.wait(1).then((res: any) => {
         console.log(res);
+        refetch();
       });
       //   setNewOwner("");
     } catch (error) {

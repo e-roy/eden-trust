@@ -9,6 +9,8 @@ import { AiOutlineHome } from "react-icons/ai";
 
 import { GridLayout, GridItemTwo, GridItemEight } from "@/components/layout";
 import { MyContractContainer, BelieveContainer } from "@/components/containers";
+import { Card } from "@/components/elements";
+import { UserHeader } from "@/components/user";
 
 const SignUpTestPage: NextPage = () => {
   const router = useRouter();
@@ -19,7 +21,6 @@ const SignUpTestPage: NextPage = () => {
   const provider = useProvider();
 
   const [usersContract, setUsersContract] = useState("");
-  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const trustFactoryContract = useContract({
@@ -49,9 +50,6 @@ const SignUpTestPage: NextPage = () => {
     return <div>Please connect your wallet</div>;
   }
 
-  if (error) {
-    return <div>this user doens't have an account</div>;
-  }
   return (
     <GridLayout>
       <GridItemTwo>
@@ -65,13 +63,29 @@ const SignUpTestPage: NextPage = () => {
         </Link>
       </GridItemTwo>
       <GridItemEight>
-        {id === address ? (
-          <MyContractContainer />
+        {error ? (
+          <Card>
+            <div className={`max-w-lg m-auto h-96`}>
+              <UserHeader address={address} />
+
+              <div className={`text-slate-500 py-12 text-center font-medium`}>
+                <div>this user doesn't have an account</div>
+                <div>or</div>
+                <div>you are on the incorrect network</div>
+              </div>
+            </div>
+          </Card>
         ) : (
-          <BelieveContainer
-            userAddress={(id as string) || ""}
-            contractAddress={usersContract}
-          />
+          <>
+            {id === address ? (
+              <MyContractContainer />
+            ) : (
+              <BelieveContainer
+                userAddress={(id as string) || ""}
+                contractAddress={usersContract}
+              />
+            )}
+          </>
         )}
       </GridItemEight>
       <GridItemTwo> </GridItemTwo>

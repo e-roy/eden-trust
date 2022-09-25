@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useContract, useProvider } from "wagmi";
 
 import trust from "@/abis/trust.json";
-
 import { ethers } from "ethers";
 
-import { GetPaid } from "./GetPaid";
-
-import { FiExternalLink } from "react-icons/fi";
+import { GetPaid, ProjectCompleted } from "./";
+import { Address } from "@/components/elements";
 
 export interface ITrustInfoProps {
   usersContract: string;
@@ -17,8 +15,9 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
   const [percentage, setPercentage] = useState("");
   const [gigCount, setGigCount] = useState("");
   const [balanceContract, setBalanceContract] = useState("");
-  const [balanceOwner, setBalanceOwner] = useState("");
+  // const [balanceOwner, setBalanceOwner] = useState("");
   const [believers, setBelievers] = useState("");
+  const [projectsFinished, setProjectsFinished] = useState("");
 
   const provider = useProvider();
 
@@ -36,15 +35,21 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
         setPercentage(percentage.toString());
         const gigCount = await trustContract.gigCount();
         setGigCount(gigCount.toString());
-        const balanceContract = await trustContract.getContractBalance();
-        setBalanceContract(ethers.utils.formatEther(balanceContract));
-        const balanceOwner = await trustContract.getContractBalance();
-        setBalanceOwner(ethers.utils.formatEther(balanceOwner));
         const noOfBelievers = await trustContract.noOfBelievers();
         setBelievers(noOfBelievers.toString());
+        const projectCount = await trustContract.projectCount();
+        setProjectsFinished(projectCount.toString());
 
-        const getOwnerBalance = await trustContract.getOwnerBalance();
-        console.log("getOwnerBalance", getOwnerBalance.toString());
+        const balanceContract = await trustContract.getContractBalance();
+        setBalanceContract(ethers.utils.formatEther(balanceContract));
+        // const balanceOwner = await trustContract.getOwnerBalance();
+        // setBalanceOwner(ethers.utils.formatEther(balanceOwner));
+
+        // const getBeliverBalance = await trustContract.getBeliverBalance();
+        // console.log(
+        //   "getBeliverBalance",
+        //   ethers.utils.formatEther(getBeliverBalance)
+        // );
 
         // const platformAddress = await trustContract.platformAddress();
         // console.log("platformAddress", platformAddress);
@@ -63,26 +68,32 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
       <div className={`text-2xl text-slate-700 font-bold text-center mb-8`}>
         Your Trust
       </div>
-      <div className={`font-medium text-slate-500 pb-4 flex`}>
-        {usersContract}{" "}
-        <a
-          href={`https://mumbai.polygonscan.com/address/${usersContract}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <FiExternalLink className={`mx-2 my-1`} />
-        </a>
-      </div>
-      <div>Total Believers : {believers}</div>
+      <Address address={usersContract} />
 
-      <div>percentage : {percentage}</div>
-      <div>gigCount : {gigCount}</div>
-      <div>balanceContract : {balanceContract} MATIC</div>
-      <div>balanceOwner: {balanceOwner} MATIC</div>
-      <GetPaid
-        contractAddress={usersContract}
-        balanceContract={balanceContract}
-      />
+      <div className={`text-sm text-slate-600`}>
+        <div>Contract Balance : {balanceContract} MATIC</div>
+        <div className={`flex justify-between`}>
+          <div>Total Believers : {believers}</div>
+
+          <div>percentage to believers : {percentage}</div>
+        </div>
+
+        {/* <div>balanceOwner: {balanceOwner} MATIC</div> */}
+        <div>total gigs to complete : {gigCount}</div>
+        <div>total projects finished : {projectsFinished}</div>
+      </div>
+      {projectsFinished < gigCount ? (
+        <ProjectCompleted
+          contractAddress={usersContract}
+          refetch={handleContractData}
+        />
+      ) : (
+        <GetPaid
+          contractAddress={usersContract}
+          balanceContract={balanceContract}
+          refetch={handleContractData}
+        />
+      )}
     </div>
   );
 };
