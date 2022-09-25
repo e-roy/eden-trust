@@ -29,7 +29,7 @@ export const AccountList = () => {
   };
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div>returns : {isTrue}</div>
       <TextField
         label={`check address`}

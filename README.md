@@ -2,9 +2,9 @@
 
 # salary Address: 0xB4B23Db28ED7F94e0D274027e8eaD3EC5aee7318
 
-# trustFactory Contract: 0x3cf87f0213685ad1679C5e88a3D84a656d94cf1e
+# trustFactory Contract: 0x8Af2FB1384DD075898341980Fc3Ba3e1b7bF9181
 
-# first trust contract: 0x4690BeecBe0A642bE0846dE6d600C7425Eed717B
+# first trust contract: 0x16458eAf2eCe2954aAFd2c149c0F79b589f10eC5
 
 
 more info to follow

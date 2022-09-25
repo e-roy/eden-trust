@@ -54,8 +54,8 @@ export const SendLumpSum = () => {
       // console.log("daix", daix);
       const tx = await routerContract.sendLumpSumToContract(
         daix.address,
-        ethers.utils.parseEther(lumpSum),
-        // ethers.utils.parseEther("500"),
+        // ethers.utils.parseEther(lumpSum),
+        ethers.utils.parseEther("5"),
         {
           gasLimit: "1000000",
         }
@@ -71,7 +71,7 @@ export const SendLumpSum = () => {
   }, [lumpSum]);
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Send Lump Sum</div>
       <TextField
         label={`send lump sum`}

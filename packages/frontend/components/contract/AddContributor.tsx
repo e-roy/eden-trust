@@ -18,7 +18,7 @@ export const AddContributor = () => {
   const [contributor, setContributor] = useState("");
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <TextField
         label={`add contributor`}
         placeholder={`0x0000000000000000000000000000000000000000`}

@@ -46,7 +46,7 @@ export const WithdrawFunds = () => {
   }, [amount]);
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Withdraw Funds</div>
       <TextField
         label={`withdrawFunds`}
