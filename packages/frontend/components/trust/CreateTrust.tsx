@@ -4,10 +4,15 @@ import { useContract, useSigner } from "wagmi";
 import trustFactory from "@/abis/trustFactory.json";
 import { TRUST_FACTORY_ADDRESS } from "@/constants";
 
-import { Button, TextField } from "@/components/elements";
+import { Button, TextField, Loading } from "@/components/elements";
 
-export const CreateTrust = () => {
+export interface ICreateTrustProps {
+  refetch: () => void;
+}
+
+export const CreateTrust = ({ refetch }: ICreateTrustProps) => {
   const { data: signerData } = useSigner();
+  const [submitting, setSubmitting] = useState(false);
 
   const trustFactoryContract = useContract({
     addressOrName: TRUST_FACTORY_ADDRESS,
@@ -19,6 +24,7 @@ export const CreateTrust = () => {
   const [gigCount, setGigCount] = useState("");
 
   const handleCreateTrust = async () => {
+    setSubmitting(true);
     try {
       const tx = await trustFactoryContract.createTrustContract(
         percentage,
@@ -27,16 +33,24 @@ export const CreateTrust = () => {
           gasLimit: "10000000",
         }
       );
-      tx.wait(1).then((res: any) => {
-        console.log(res);
+      tx.wait(1).then(() => {
+        refetch();
       });
     } catch (error) {
       console.log(error);
+      setSubmitting(false);
     }
   };
 
+  if (submitting)
+    return (
+      <div className={`h-full`}>
+        <Loading title={`Creating Contract...`} />
+      </div>
+    );
+
   return (
-    <div>
+    <div className={`m-auto py-4`}>
       <div className={`text-2xl text-slate-700 font-bold text-center mb-8`}>
         Create Trust
       </div>
@@ -53,7 +67,12 @@ export const CreateTrust = () => {
         onChange={(e) => setGigCount(e.target.value)}
       />
       <div className={"mt-4"}>
-        <Button onClick={() => handleCreateTrust()}>create trust</Button>
+        <Button
+          className={`w-full justify-center`}
+          onClick={() => handleCreateTrust()}
+        >
+          create trust
+        </Button>
       </div>
     </div>
   );

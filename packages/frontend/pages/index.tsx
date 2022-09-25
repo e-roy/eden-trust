@@ -14,6 +14,7 @@ import {
 } from "@/components/contract";
 
 import { WelcomeContainer } from "@/components/containers";
+import { GridLayout, GridItemTwo, GridItemEight } from "@/components/layout";
 
 // import { UserContext } from "@/components/layout";
 // import { useContext } from "react";
@@ -36,9 +37,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={`p-8`}>
+      <GridLayout>
+        <GridItemTwo> </GridItemTwo>
+        <GridItemEight>
+          <WelcomeContainer />
+        </GridItemEight>
+        <GridItemTwo> </GridItemTwo>
+      </GridLayout>
+
+      {/* <main className={`p-8`}>
         <WelcomeContainer />
-        {/* <GetAccountInfo />
+        <GetAccountInfo />
         <RouterContractInfo />
         <AllowAccount />
         <AddContributor />
@@ -47,10 +56,10 @@ export default function Home() {
         <AccountList />
         <SendLumpSum />
         <CreateFlow />
-        <WithdrawFunds /> */}
-        {/* <CreateTrust />
-        <TrustFactoryInfo /> */}
-      </main>
+        <WithdrawFunds />
+        <CreateTrust />
+        <TrustFactoryInfo />
+      </main> */}
     </div>
   );
 }

@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = {
-  variant?: "default" | "primary" | "secondary" | "tertiary";
   radius?: "default" | "rounded" | "pill";
   size?: "lg" | "md" | "sm";
   className?: string;
@@ -12,7 +11,6 @@ type ButtonProps = {
 
 export const Button = ({
   children,
-  variant = "default",
   radius = "default",
   size = "lg",
   className,
@@ -24,15 +22,8 @@ export const Button = ({
       "text-xs px-2": size === "sm",
       "px-6": size === "lg",
     },
-    "py-1 font-Inter text-darkGreen flex font-medium",
+    "py-1 font-Inter text-darkGreen flex font-medium border shadow-md hover:shadow-sm",
     {
-      "bg-accentColor text-soilGreen border-2 border-accentColor hover:border-darkGreen hover:bg-darkGreen hover:text-white":
-        variant === "primary",
-      "text-darkGreen hover:text-white border-2 border-darkGreen hover:bg-darkGreen":
-        variant === "secondary",
-      "bg-soilGray text-darkGreen hover:text-white hover:bg-darkGreen":
-        variant === "tertiary",
-      "border-2": variant === "default",
       "rounded-full": radius === "pill",
       "rounded-lg": radius === "rounded",
       "rounded-md": radius === "default",
