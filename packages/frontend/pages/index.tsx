@@ -1,18 +1,5 @@
 import Head from "next/head";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import {
-  RouterContractInfo,
-  AddContributor,
-  RemoveContributor,
-  ChangeOwner,
-  AccountList,
-  SendLumpSum,
-  AllowAccount,
-  CreateFlow,
-  WithdrawFunds,
-} from "@/components/contract";
-
 import { WelcomeContainer } from "@/components/containers";
 import { GridLayout, GridItemTwo, GridItemEight } from "@/components/layout";
 
@@ -44,19 +31,6 @@ export default function Home() {
         </GridItemEight>
         <GridItemTwo> </GridItemTwo>
       </GridLayout>
-
-      <main className={`p-8`}>
-        <GetAccountInfo />
-        <RouterContractInfo />
-        <AllowAccount />
-        <AddContributor />
-        <RemoveContributor />
-        <ChangeOwner />
-        <AccountList />
-        <SendLumpSum />
-        <CreateFlow />
-        <WithdrawFunds />
-      </main>
     </div>
   );
 }

@@ -18,7 +18,15 @@ export const MyContractContainer = () => {
   const [usersContract, setUsersContract] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [contractCompleted, setContractCompleted] = useState(false);
   const provider = useProvider();
+
+  useEffect(() => {
+    if (contractCompleted) {
+      console.log("contractCompleted", contractCompleted);
+      setUsersContract("");
+    }
+  }, [contractCompleted]);
 
   const trustFactoryContract = useContract({
     addressOrName: TRUST_FACTORY_ADDRESS,
@@ -68,10 +76,17 @@ export const MyContractContainer = () => {
     <Card>
       <div className={`max-w-lg m-auto h-96`}>
         <UserHeader address={address} />
-        {usersContract === "0x0000000000000000000000000000000000000000" ? (
-          <CreateTrust refetch={reFetchData} />
+        {usersContract === "0x0000000000000000000000000000000000000000" ||
+        contractCompleted ? (
+          <CreateTrust
+            refetch={reFetchData}
+            onContractReset={(val) => setContractCompleted(val)}
+          />
         ) : (
-          <TrustInfo usersContract={usersContract} />
+          <TrustInfo
+            usersContract={usersContract}
+            onContractComplete={(val) => setContractCompleted(val)}
+          />
         )}
       </div>
     </Card>

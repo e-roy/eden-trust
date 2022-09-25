@@ -8,9 +8,13 @@ import { Button, TextField, Loading } from "@/components/elements";
 
 export interface ICreateTrustProps {
   refetch: () => void;
+  onContractReset: (val: any) => void;
 }
 
-export const CreateTrust = ({ refetch }: ICreateTrustProps) => {
+export const CreateTrust = ({
+  refetch,
+  onContractReset,
+}: ICreateTrustProps) => {
   const { data: signerData } = useSigner();
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,6 +39,7 @@ export const CreateTrust = ({ refetch }: ICreateTrustProps) => {
       );
       tx.wait(1).then(() => {
         refetch();
+        onContractReset(false);
       });
     } catch (error) {
       console.log(error);
@@ -55,14 +60,14 @@ export const CreateTrust = ({ refetch }: ICreateTrustProps) => {
         Create Trust
       </div>
       <TextField
-        label={`percentage`}
-        placeholder={`percentage`}
+        label={`percentage to believers`}
+        placeholder={`0`}
         value={percentage}
         onChange={(e) => setPercentage(e.target.value)}
       />
       <TextField
-        label={`gigCount`}
-        placeholder={`gigCount`}
+        label={`total projects to complete`}
+        placeholder={`0`}
         value={gigCount}
         onChange={(e) => setGigCount(e.target.value)}
       />
