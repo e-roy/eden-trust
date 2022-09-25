@@ -56,8 +56,11 @@ const SignUpTestPage: NextPage = () => {
     <GridLayout>
       <GridItemTwo>
         <Link href={`/`}>
-          <span className={`flex font-medium text-slate-700 cursor-pointer`}>
-            <AiOutlineHome /> <span className={`pl-2`}>Home</span>
+          <span
+            className={`flex font-medium text-slate-600 hover:text-slate-800 cursor-pointer`}
+          >
+            <AiOutlineHome size={`2rem`} />{" "}
+            <span className={`pl-2 my-auto text-xl`}>Home</span>
           </span>
         </Link>
       </GridItemTwo>
@@ -65,7 +68,10 @@ const SignUpTestPage: NextPage = () => {
         {id === address ? (
           <MyContractContainer />
         ) : (
-          <BelieveContainer contractAddress={usersContract} />
+          <BelieveContainer
+            userAddress={(id as string) || ""}
+            contractAddress={usersContract}
+          />
         )}
       </GridItemEight>
       <GridItemTwo> </GridItemTwo>

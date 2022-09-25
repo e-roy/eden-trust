@@ -59,7 +59,7 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
   }, [usersContract]);
 
   return (
-    <div>
+    <div className={`max-w-lg m-auto`}>
       <div className={`text-2xl text-slate-700 font-bold text-center mb-8`}>
         Your Trust
       </div>

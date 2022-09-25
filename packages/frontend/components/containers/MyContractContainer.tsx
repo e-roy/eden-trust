@@ -1,6 +1,7 @@
-import { Card } from "../elements";
+import { Card, svgAvatarGenerator, Avatar } from "../elements";
+import { UserHeader } from "@/components/user";
 import { useEffect, useState, useCallback } from "react";
-import { useContract, useProvider } from "wagmi";
+import { useContract, useProvider, useAccount } from "wagmi";
 import { useRouter } from "next/router";
 import { CreateTrust } from "@/components/trust";
 
@@ -10,6 +11,7 @@ import { TrustInfo } from "@/components/trust";
 
 export const MyContractContainer = () => {
   const router = useRouter();
+  const { address } = useAccount();
 
   const { id } = router.query;
 
@@ -43,6 +45,17 @@ export const MyContractContainer = () => {
     }
   }, [provider, trustFactoryContract, fetchData]);
 
+  const reFetchData = useCallback(async () => {
+    try {
+      const contract = await trustFactoryContract.searchByAddress(id);
+      setUsersContract(contract);
+      setError("");
+    } catch (error) {
+      console.log(error);
+      setError("Contract couldn't be fetched.  Please check your network.");
+    }
+  }, [trustFactoryContract]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -53,11 +66,14 @@ export const MyContractContainer = () => {
 
   return (
     <Card>
-      {usersContract === "0x0000000000000000000000000000000000000000" ? (
-        <CreateTrust />
-      ) : (
-        <TrustInfo usersContract={usersContract} />
-      )}
+      <div className={`max-w-lg m-auto h-96`}>
+        <UserHeader address={address} />
+        {usersContract === "0x0000000000000000000000000000000000000000" ? (
+          <CreateTrust refetch={reFetchData} />
+        ) : (
+          <TrustInfo usersContract={usersContract} />
+        )}
+      </div>
     </Card>
   );
 };

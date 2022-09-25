@@ -46,8 +46,13 @@ export const GetPaid = ({
   };
 
   return (
-    <div>
-      <Button onClick={() => handleCreateTrust()}>withdrawl funds</Button>
+    <div className={`my-4`}>
+      <Button
+        className={`w-full justify-center`}
+        onClick={() => handleCreateTrust()}
+      >
+        withdraw funds
+      </Button>
     </div>
   );
 };
