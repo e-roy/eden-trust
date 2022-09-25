@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { MONEY_ROUTER_ADDRESS } from "@/constants";
-import { Card } from "@/components/elements";
+import { Address, Card } from "@/components/elements";
 
 export const FIND_ACCOUNT = gql`
   query ($id: ID = "0x20d765573479b50d3e72580a8fb06661cb544078") {
@@ -53,7 +53,9 @@ export const GetAccountInfo = () => {
         <div key={index} className={`border p-4 rounded-lg my-4`}>
           <div>Received Transfer Event</div>
           <div>id : {event.id}</div>
-          <div>token : {event.token}</div>
+          <div className={`flex`}>
+            token : <Address address={event.token} />
+          </div>
           <div>value : {event.value}</div>
           <div>
             addresses :

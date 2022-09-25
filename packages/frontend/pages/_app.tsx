@@ -87,7 +87,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} theme={customTheme}>
           <NextHead>
-            <title>trust app</title>
+            <title>Trust Factory</title>
           </NextHead>
           <AppLayout>
             <Component {...pageProps} />

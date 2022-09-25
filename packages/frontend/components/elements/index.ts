@@ -6,3 +6,4 @@ export * from "./TextArea";
 export * from "./TextField";
 export * from "./Loading";
 export * from "./svgAvatarGenerator";
+export * from "./Address";
