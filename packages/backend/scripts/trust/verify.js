@@ -6,12 +6,12 @@ require("@nomiclabs/hardhat-etherscan");
 
 async function main() {
   await hre.run("verify:verify", {
-    address: "0x16458eAf2eCe2954aAFd2c149c0F79b589f10eC5",
+    address: "0xdF0e1E9C842f2f83Bb1c6FDaFee5D46BeBB67747", // address of trust contract
     constructorArguments: [
-      10,
-      "0x4E476F7FB84c785557cDECdbf8CADEbE8EA57C37",
-      5,
-      "0x8Af2FB1384DD075898341980Fc3Ba3e1b7bF9181",
+      10, // percentage
+      "0x4E476F7FB84c785557cDECdbf8CADEbE8EA57C37", // onwer of trust contract
+      2, // Gigs promised
+      "0x19E8a5A2Eac4B694B67b4Dd510C339184a1888B0", // platform address
     ],
   });
 }
