@@ -1,12 +1,15 @@
 # Factory Trust dapp
 
-[https://delicate-cloud-1597.on.fleek.co/](https://delicate-cloud-1597.on.fleek.co/)
+### [https://delicate-cloud-1597.on.fleek.co/](https://delicate-cloud-1597.on.fleek.co/)
 
-# salary Address: 0xB4B23Db28ED7F94e0D274027e8eaD3EC5aee7318
+### salary Address: 0xB4B23Db28ED7F94e0D274027e8eaD3EC5aee7318
 
-# trustFactory Contract: 0x19E8a5A2Eac4B694B67b4Dd510C339184a1888B0
+### trustFactory Contract: 0x19E8a5A2Eac4B694B67b4Dd510C339184a1888B0
 
-# first trust contract: 0xdF0e1E9C842f2f83Bb1c6FDaFee5D46BeBB67747
+### first trust contract: 0xdF0e1E9C842f2f83Bb1c6FDaFee5D46BeBB67747
+
+## Description
+Job Platform, where Domain Experts support juniors to get their first job by staking ETH on them. Experts will receive money whenever a junior earns money. Juniors will get credentials and goodwill while seniors help onboard new dev and earn some money while doing so.
 
 more info to follow
 
