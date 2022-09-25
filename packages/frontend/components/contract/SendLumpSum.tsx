@@ -71,7 +71,7 @@ export const SendLumpSum = () => {
   }, [lumpSum]);
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Send Lump Sum</div>
       <TextField
         label={`send lump sum`}

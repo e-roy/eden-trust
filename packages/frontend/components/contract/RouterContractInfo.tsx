@@ -62,7 +62,7 @@ export const RouterContractInfo = () => {
   }
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Router Contract Info</div>
       <div>contract address : {MONEY_ROUTER_ADDRESS}</div>
       <span>owner address : {accountOwner}</span>

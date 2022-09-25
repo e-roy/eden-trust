@@ -4,7 +4,7 @@ import { useContract, useSigner } from "wagmi";
 import trustFactory from "@/abis/trustFactory.json";
 import { TRUST_FACTORY_ADDRESS } from "@/constants";
 
-import { Button, Card, TextField } from "@/components/elements";
+import { Button, TextField } from "@/components/elements";
 
 export const CreateTrust = () => {
   const { data: signerData } = useSigner();
@@ -15,10 +15,6 @@ export const CreateTrust = () => {
     signerOrProvider: signerData,
   });
 
-  //   console.log("trustFactoryContract", trustFactoryContract);
-
-  // const [newOwner, setNewOwner] = useState("");
-  const [profileId, setProfileId] = useState("");
   const [percentage, setPercentage] = useState("");
   const [gigCount, setGigCount] = useState("");
 
@@ -34,18 +30,19 @@ export const CreateTrust = () => {
       tx.wait(1).then((res: any) => {
         console.log(res);
       });
-      //   setNewOwner("");
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <div>
+      <div className={`text-2xl text-slate-700 font-bold text-center mb-8`}>
+        Create Trust
+      </div>
       <TextField
         label={`percentage`}
         placeholder={`percentage`}
-        // type={`text`}
         value={percentage}
         onChange={(e) => setPercentage(e.target.value)}
       />
@@ -58,6 +55,6 @@ export const CreateTrust = () => {
       <div className={"mt-4"}>
         <Button onClick={() => handleCreateTrust()}>create trust</Button>
       </div>
-    </Card>
+    </div>
   );
 };

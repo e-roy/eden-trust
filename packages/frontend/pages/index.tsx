@@ -13,18 +13,20 @@ import {
   WithdrawFunds,
 } from "@/components/contract";
 
-import { UserContext } from "@/components/layout";
-import { useContext } from "react";
+import { WelcomeContainer } from "@/components/containers";
 
-import { CreateTrust, TrustFactoryInfo } from "@/components/trust";
+// import { UserContext } from "@/components/layout";
+// import { useContext } from "react";
+
+import { CreateTrust, TrustFactoryInfo, AddBeliever } from "@/components/trust";
 
 import { GetAccountInfo } from "@/components/superfluid";
 
 export default function Home() {
-  const { authenticatedCeramicInst } = useContext(UserContext);
-  const ceramic = authenticatedCeramicInst;
+  // const { authenticatedCeramicInst } = useContext(UserContext);
+  // const ceramic = authenticatedCeramicInst;
 
-  console.log(ceramic);
+  // console.log(ceramic);
 
   return (
     <div className={"bg-slate-100"}>
@@ -35,6 +37,7 @@ export default function Home() {
       </Head>
 
       <main className={`p-8`}>
+        <WelcomeContainer />
         {/* <GetAccountInfo />
         <RouterContractInfo />
         <AllowAccount />
@@ -45,8 +48,8 @@ export default function Home() {
         <SendLumpSum />
         <CreateFlow />
         <WithdrawFunds /> */}
-        <CreateTrust />
-        <TrustFactoryInfo />
+        {/* <CreateTrust />
+        <TrustFactoryInfo /> */}
       </main>
     </div>
   );

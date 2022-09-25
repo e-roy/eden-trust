@@ -51,7 +51,7 @@ export const CreateFlow = () => {
   };
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Create Flow</div>
       <TextField
         label={`receiver's address`}
