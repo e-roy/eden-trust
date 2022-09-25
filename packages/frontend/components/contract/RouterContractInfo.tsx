@@ -4,7 +4,7 @@ import { useContract, useProvider } from "wagmi";
 import moneyRouter from "@/abis/moneyRouter.json";
 import { MONEY_ROUTER_ADDRESS } from "@/constants";
 
-import { Button, Card } from "@/components/elements";
+import { Address, Button, Card } from "@/components/elements";
 
 export const RouterContractInfo = () => {
   const [accountOwner, setAccountOwner] = useState("");
@@ -64,7 +64,9 @@ export const RouterContractInfo = () => {
   return (
     <Card>
       <div className={`text-lg font-bold`}>Router Contract Info</div>
-      <div>contract address : {MONEY_ROUTER_ADDRESS}</div>
+      <div className={`flex`}>
+        contract address : <Address address={MONEY_ROUTER_ADDRESS} />
+      </div>
       <span>owner address : {accountOwner}</span>
       <div>total contributors : {totalContributors}</div>
       <div>contract balance : {contractBalance}</div>

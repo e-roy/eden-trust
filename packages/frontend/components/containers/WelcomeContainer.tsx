@@ -3,7 +3,7 @@ import { Card, TextField, Button } from "../elements";
 import { useRouter } from "next/router";
 import { useAccount, useContract, useProvider } from "wagmi";
 import { FindAllTrust } from "@/components/trust";
-import { GridLayout, GridItemSix } from "@/components/layout";
+import { GridLayout, GridItemSix, GridItemTwelve } from "@/components/layout";
 
 import trustFactory from "@/abis/trustFactory.json";
 import { TRUST_FACTORY_ADDRESS } from "@/constants";
@@ -40,7 +40,9 @@ export const WelcomeContainer = () => {
 
   return (
     <Card>
-      <div className={`font-medium text-slate-500 pb-4 flex`}>
+      <div
+        className={`font-medium text-slate-500 pb-4 flex text-center text-2xl`}
+      >
         Welcome to Trust Factory
       </div>
       <div className={`text-slate-500`}>
@@ -54,56 +56,66 @@ export const WelcomeContainer = () => {
         {/* <FindAllTrust /> */}
 
         <GridLayout>
-          <GridItemSix>
-            <div className={"mx-4"}>
-              <div className={`h-28`}>
-                {foundAddress && (
-                  <div className={`text-slate-700 font-medium text-center`}>
-                    <div className={``}>put trust in this person</div>
+          {address ? (
+            <>
+              <GridItemSix>
+                <div className={"mx-4"}>
+                  <div className={`h-28`}>
+                    {foundAddress && (
+                      <div className={`text-slate-700 font-medium text-center`}>
+                        <div className={``}>put trust in this person</div>
+                        <Button
+                          className={`w-full justify-center py-2`}
+                          onClick={() => router.push(`/believe/${findAddress}`)}
+                        >
+                          <UserHeader address={findAddress} />
+                        </Button>
+                      </div>
+                    )}
+                    {error && <div className={`text-red-500`}>{error}</div>}
+                  </div>
+
+                  <TextField
+                    label={`search by address`}
+                    placeholder={`0x0000000000000000000000000000000000000000`}
+                    value={findAddress}
+                    onChange={(e) => setFindAddress(e.target.value)}
+                  />
+                  <div className={"mt-4"}>
                     <Button
-                      className={`w-full justify-center py-2`}
-                      onClick={() => router.push(`/believe/${findAddress}`)}
+                      className={`w-full justify-center`}
+                      onClick={() => handleSearch()}
                     >
-                      <UserHeader address={findAddress} />
+                      search address
                     </Button>
                   </div>
-                )}
-                {error && <div className={`text-red-500`}>{error}</div>}
-              </div>
-
-              <TextField
-                label={`search by address`}
-                placeholder={`0x0000000000000000000000000000000000000000`}
-                value={findAddress}
-                onChange={(e) => setFindAddress(e.target.value)}
-              />
-              <div className={"mt-4"}>
-                <Button
-                  className={`w-full justify-center`}
-                  onClick={() => handleSearch()}
-                >
-                  search address
-                </Button>
-              </div>
-            </div>
-          </GridItemSix>
-          <GridItemSix>
-            <div className={"mx-4"}>
-              <Button
-                className={"w-full my-8"}
-                onClick={() => router.push(`/believe/${address}`)}
-              >
-                <div className={"w-full justify-center my-4"}>
-                  <div className={"m-auto w-full flex justify-center my-4"}>
-                    <UserHeader address={address} />
-                  </div>
-                  <div className={`text-2xl text-slate-700 font-medium`}>
-                    view your trust
-                  </div>
                 </div>
-              </Button>
-            </div>
-          </GridItemSix>
+              </GridItemSix>
+              <GridItemSix>
+                <div className={"mx-4"}>
+                  <Button
+                    className={"w-full my-8"}
+                    onClick={() => router.push(`/believe/${address}`)}
+                  >
+                    <div className={"w-full justify-center my-4"}>
+                      <div className={"m-auto w-full flex justify-center my-4"}>
+                        <UserHeader address={address} />
+                      </div>
+                      <div className={`text-2xl text-slate-700 font-medium`}>
+                        view your trust
+                      </div>
+                    </div>
+                  </Button>
+                </div>
+              </GridItemSix>
+            </>
+          ) : (
+            <GridItemTwelve>
+              <div className={`text-center font-medium text-slate-500`}>
+                Connect Wallet to use Trust Factory
+              </div>
+            </GridItemTwelve>
+          )}
         </GridLayout>
       </div>
     </Card>
