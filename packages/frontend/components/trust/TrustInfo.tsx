@@ -9,9 +9,13 @@ import { Address } from "@/components/elements";
 
 export interface ITrustInfoProps {
   usersContract: string;
+  onContractComplete: (val: any) => void;
 }
 
-export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
+export const TrustInfo = ({
+  usersContract,
+  onContractComplete,
+}: ITrustInfoProps) => {
   const [percentage, setPercentage] = useState("");
   const [gigCount, setGigCount] = useState("");
   const [balanceContract, setBalanceContract] = useState("");
@@ -55,6 +59,14 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
         // console.log("platformAddress", platformAddress);
         // const creation = await trustContract.contractCreationTime();
         // console.log("creation", creation);
+        if (
+          projectCount.toString() === gigCount.toString() &&
+          gigCount !== "0" &&
+          projectCount !== "0" &&
+          ethers.utils.formatEther(balanceContract) === "0.0"
+        ) {
+          onContractComplete(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -78,7 +90,6 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
           <div>percentage to believers : {percentage}</div>
         </div>
 
-        {/* <div>balanceOwner: {balanceOwner} MATIC</div> */}
         <div>total gigs to complete : {gigCount}</div>
         <div>total projects finished : {projectsFinished}</div>
       </div>
@@ -88,11 +99,7 @@ export const TrustInfo = ({ usersContract }: ITrustInfoProps) => {
           refetch={handleContractData}
         />
       ) : (
-        <GetPaid
-          contractAddress={usersContract}
-          balanceContract={balanceContract}
-          refetch={handleContractData}
-        />
+        <GetPaid contractAddress={usersContract} refetch={handleContractData} />
       )}
     </div>
   );

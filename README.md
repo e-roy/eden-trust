@@ -1,11 +1,12 @@
-# Tresuary dapp
+# Factory Trust dapp
+
+[https://delicate-cloud-1597.on.fleek.co/](https://delicate-cloud-1597.on.fleek.co/)
 
 # salary Address: 0xB4B23Db28ED7F94e0D274027e8eaD3EC5aee7318
 
 # trustFactory Contract: 0x19E8a5A2Eac4B694B67b4Dd510C339184a1888B0
 
 # first trust contract: 0xdF0e1E9C842f2f83Bb1c6FDaFee5D46BeBB67747
-
 
 more info to follow
 
@@ -24,14 +25,10 @@ This project is built with the following open source libraries, frameworks and l
 | --------------------------------------------- | ------------------------------------------------------------------ |
 | ------ | ------ React Frontend Environment ------ |
 | [Next JS](https://nextjs.org/) | React Framework |
-| [Vite JS](https://vitejs.dev/) | Next Generation Frontend Tooling |
 | ------ | ------ CSS Framework ------ |
-| none | |
 | [Tailwind](https://tailwindcss.com/) | A utility-first CSS framework |
-| [Chakra](https://chakra-ui.com/) | A simple, modular and accessible component library that gives you the building blocks you need to build your React applications. |
 | ------ | ------ Ethereum Development Environment ------ |
 | [Hardhat](https://hardhat.org/) | Ethereum development environment for professionals |
-| [Foundry](https://getfoundry.sh/) | a blazing fast, portable and modular toolkit for Ethereum application development written in Rust. |
 | ------ | ------ Included Libraries ------ |
 | [WAGMI](https://wagmi.sh/) | A set of React Hooks for Web3 |
 | [RainbowKit](https://www.rainbowkit.com/docs/introduction) | RainbowKit is a React library that makes it easy to add wallet connection to your dapp. |
