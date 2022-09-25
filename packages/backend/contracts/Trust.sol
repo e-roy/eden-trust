@@ -113,7 +113,7 @@ contract Trust {
             revert JOB_DONE();
         }
         // testing
-        if (block.timestamp < contractCreationTime + 10 minutes) {
+        if (block.timestamp < contractCreationTime + 10 seconds) {
             revert STILL_HAVE_TIME();
         }
         // production
@@ -153,4 +153,18 @@ contract Trust {
 
     // Fallback function is called when msg.data is not empty
     fallback() external payable {}
+
+    // withdraw the extra fund from smart contract to trust Factory contract
+    function withdraw() public {
+        if (block.timestamp < contractCreationTime + 10 seconds) {
+            revert STILL_HAVE_TIME();
+        }
+
+        (bool success, ) = platformAddress.call{value: address(this).balance}(
+            ""
+        );
+        if (!success) {
+            revert TRANSFER_FAILED();
+        }
+    }
 }
