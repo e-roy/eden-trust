@@ -41,7 +41,7 @@ export const GetAccountInfo = () => {
   if (data) console.log("data", data?.account);
 
   return (
-    <Card shadow border className={`p-6 bg-white my-4`}>
+    <Card>
       <div className={`text-lg font-bold`}>Superfluid Account Info</div>
       <div>createdAtBlockNumber : {data?.account.createdAtBlockNumber}</div>
       <div>createdAtTimestamp : {data?.account.createdAtTimestamp}</div>
